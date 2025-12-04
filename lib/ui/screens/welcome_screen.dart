@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class WelcomeScreen extends StatelessWidget {
   final VoidCallback onStart;
 
@@ -34,31 +33,24 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
 
-              // logo
+              //logo
               const FlutterLogo(size: 100, style: FlutterLogoStyle.markOnly),
               const Spacer(),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: SizedBox(
-                  width: 100,
-                  
-                  child: ElevatedButton(
-                    onPressed: onStart,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black87,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      'Start Quiz',
-                      style: TextStyle(fontSize: 16),
-                    ),
+              ElevatedButton(
+                onPressed: onStart,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 30,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
+                child: const Text('Start Quiz', style: TextStyle(fontSize: 16)),
               ),
 
               const SizedBox(height: 50),

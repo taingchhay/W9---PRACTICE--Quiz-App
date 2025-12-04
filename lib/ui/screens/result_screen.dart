@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../model/quiz.dart';
-
 class ResultScreen extends StatelessWidget {
   final List<String> userAnswers;
   final List<Question> questions;
@@ -11,7 +10,6 @@ class ResultScreen extends StatelessWidget {
     required this.questions,
   });
 
-  // calcu score 
   int get score {
     int correct = 0;
     for (int i = 0; i < questions.length; i++) {
@@ -27,9 +25,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF2196F3),
       body: SafeArea(
-
         child: Padding(
-          
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +68,6 @@ class ResultScreen extends StatelessWidget {
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14,
                                 ),
                               ),
                             ),
@@ -93,48 +88,45 @@ class ResultScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 6),
 
-                                ...question.multipleChoice.map((choice) {
-                                  final isCorrectAnswer =
-                                      choice == question.correctAnswer;
-                                  final isUserWrongAnswer =
-                                      choice == userAnswer && !isCorrect;
-
-                                  return Padding(
+                                for (var choice in question.multipleChoice)
+                                  Padding(
                                     padding: const EdgeInsets.only(
                                       left: 8,
                                       bottom: 2,
                                     ),
                                     child: Row(
                                       children: [
-                                        if (isCorrectAnswer)
-                                          const Text(
-                                            '✓ ',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )
-                                        else
-                                          const Text('   '),
+                                        Text(
+                                          choice == question.correctAnswer
+                                              ? '✓ '
+                                              : '   ',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         Text(
                                           choice,
                                           style: TextStyle(
                                             fontSize: 13,
-                                            color: isUserWrongAnswer
+                                            color:
+                                                (choice == userAnswer &&
+                                                    !isCorrect)
                                                 ? Colors.red
                                                 : Colors.white,
-                                            fontWeight: isCorrectAnswer
+                                            fontWeight:
+                                                choice == question.correctAnswer
                                                 ? FontWeight.bold
                                                 : FontWeight.normal,
-                                            fontStyle: isCorrectAnswer
+                                            fontStyle:
+                                                choice == question.correctAnswer
                                                 ? FontStyle.italic
                                                 : FontStyle.normal,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  );
-                                }),
+                                  ),
                               ],
                             ),
                           ),

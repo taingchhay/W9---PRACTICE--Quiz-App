@@ -1,8 +1,8 @@
-import '../../model/quiz.dart';
+// import '../../model/quiz.dart';
 
-class QuizJsonRepository {
+// class QuizJsonRepository {
 
-  List<Question> getQuestions() {
-    return [];
-  }
-}
+//   List<Question> getQuestions() {
+//     return [];
+//   }
+// }

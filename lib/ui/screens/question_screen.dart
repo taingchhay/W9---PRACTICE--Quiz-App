@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../model/quiz.dart';
 import 'result_screen.dart';
-
 class QuestionScreen extends StatefulWidget {
-  final List<Question> questions;
+  final List<Question> questions; 
 
   const QuestionScreen({super.key, required this.questions});
 
@@ -12,47 +11,38 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  int _currentQuestionIndex = 0;
-  String? _selectedAnswer;
+  int _questionState = 0;
   final List<String> _userAnswers = [];
 
-  Question get _currentQuestion => widget.questions[_currentQuestionIndex];
-  bool get _isLastQuestion => _currentQuestionIndex == widget.questions.length - 1;
+  Question get _currentQuestion => widget.questions[_questionState];
+  bool get _isLastQuestion => _questionState == widget.questions.length - 1;
 
-  void _selectAnswer(String answer) {
-    setState(() {
-      _selectedAnswer = answer;
-    });
-  }
+  void _onAnswerTap(String answer) {
+    _userAnswers.add(answer);
 
-  // next/finish button
-  void _nextQuestion() {
-    if (_selectedAnswer == null) return;
-
-    _userAnswers.add(_selectedAnswer!);
-
-    if (_isLastQuestion) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ResultScreen(
-            userAnswers: _userAnswers,
-            questions: widget.questions,
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_isLastQuestion) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultScreen(
+              userAnswers: _userAnswers,
+              questions: widget.questions,
+            ),
           ),
-        ),
-      );
-    } else {
-      setState(() {
-        _currentQuestionIndex++;
-        _selectedAnswer = null;
-      });
-    }
+        );
+      } else {
+        setState(() {
+          _questionState++;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2196F3), 
+      backgroundColor: const Color(0xFF2196F3),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30),
@@ -71,21 +61,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
               ),
               const SizedBox(height: 40),
 
-              ...List.generate(_currentQuestion.multipleChoice.length, (index) {
-                final choice = _currentQuestion.multipleChoice[index];
-
-                return Padding(
+              for (var choice in _currentQuestion.multipleChoice)
+                Padding(
                   padding: const EdgeInsets.only(bottom: 15),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        _selectAnswer(choice);
-                        // auto to next question after selection
-                        Future.delayed(const Duration(milliseconds: 300), () {
-                          _nextQuestion();
-                        });
-                      },
+                      onPressed: () => _onAnswerTap(choice),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black87,
@@ -97,8 +79,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       child: Text(choice, style: const TextStyle(fontSize: 16)),
                     ),
                   ),
-                );
-              }),
+                ),
 
               const Spacer(),
             ],

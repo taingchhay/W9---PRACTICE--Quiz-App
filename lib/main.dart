@@ -14,35 +14,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz App',
-
       debugShowCheckedModeBanner: false,
+      home: Builder(
+        builder: (context) => WelcomeScreen(
 
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+          onStart: () {
+            final questions = QuizMockRepository().getQuestions();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuestionScreen(questions: questions),
+              ),
+            );
+          },
+        ),
       ),
-      home: const HomeWrapper(),
-    );
-  }
-}
-
-class HomeWrapper extends StatelessWidget {
-  const HomeWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return WelcomeScreen(
-      onStart: () {
-        final repository = QuizMockRepository();
-        final questions = repository.getQuestions();
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => QuestionScreen(questions: questions),
-          ),
-        );
-      },
     );
   }
 }
