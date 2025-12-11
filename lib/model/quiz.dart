@@ -17,15 +17,13 @@ class Question {
 }
 
 class Answer {
-  final String id;
   final String questionId;
   final String answerChoice;
 
   Answer({
-    String? id, 
     required this.questionId,
     required this.answerChoice
-    }) : id = id ?? uuid.v4();
+    });
 }
 
 class Quiz {
@@ -35,6 +33,6 @@ class Quiz {
   Quiz({
     List<Question>? questions,
     List<Answer>? answers
-    }): questions = questions ?? [], 
+    }): questions = questions ?? [],
       answers = answers ?? [];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 class WelcomeScreen extends StatelessWidget {
+
   final VoidCallback onStart;
 
   const WelcomeScreen({super.key, required this.onStart});
